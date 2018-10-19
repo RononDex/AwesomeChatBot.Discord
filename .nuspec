@@ -1,0 +1,61 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <!-- The identifier that must be unique within the hosting gallery -->
+    <id>AwesomeChatBot.Discord</id>
+
+    <!-- The package version number that is used when resolving dependencies -->
+    <version>$version$</version>
+
+    <!--A human-friendly title of the package, typically used in UI displays as on nuget.org 
+    and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
+    <title>AwesomeChatBot Discord Wrapper</title>
+    
+    <!-- Authors contain text that appears directly on the gallery -->
+    <authors>RononDex</authors>
+
+    <!-- 
+            Owners are typically nuget.org identities that allow gallery
+            users to easily find other packages by the same owners.  
+        -->
+    <owners>RononDex</owners>
+
+    <!-- License and project URLs provide links for the gallery -->
+    <licenseUrl>https://github.com/RononDex/AwesomeChatBot/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/RononDex/AwesomeChatBot</projectUrl>
+
+    <!-- The icon is used in Visual Studio's package manager UI -->
+    <!--<iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>-->
+
+    <!-- 
+            If true, this value prompts the user to accept the license when
+            installing the package. 
+        -->
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+
+    <!-- Any details about this particular release -->
+    <releaseNotes>Initial upload for testing (WIP)</releaseNotes>
+
+    <!-- 
+            The description can be used in package manager UI. Note that the
+            nuget.org gallery uses information you add in the portal. 
+        -->
+    <description>
+      This package will allow your bot built with the AweomeChatBot framework to access discord
+    </description>
+
+    <!-- Tags appear in the gallery and can be used for tag searches -->
+    <tags>chat bot discord awesome chatbot regex commands</tags>
+
+    <!-- Dependencies are automatically installed when the package is installed -->
+    <dependencies>
+      <dependency id="Discord.Net" version="2.0.0-beta" />
+      <dependency id="AwesomeChatBot" version="0.2.0-pre" />
+    </dependencies>
+  </metadata>
+
+  <!-- A readme.txt to display when the package is installed -->
+  <files>
+    <!--<file src="readme.txt" target="" />-->
+  </files>
+</package>
