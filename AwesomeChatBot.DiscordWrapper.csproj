@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AwesomeChatBot\AwesomeChatBot.csproj" />
+    <ProjectReference Include="..\AwesomeChatBot\AwesomeChatBot\AwesomeChatBot.csproj" />
   </ItemGroup>
 
 </Project>
