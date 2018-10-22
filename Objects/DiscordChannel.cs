@@ -71,7 +71,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// A unique ID for the channel
         /// </summary>
-        public override string ID => this.GuildChannel != null ?
+        public override string ChannelId => this.GuildChannel != null ?
             Convert.ToString(this.GuildChannel.Id) :
             Convert.ToString(this.DMChannel.Id);
 

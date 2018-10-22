@@ -21,8 +21,8 @@
     <owners>RononDex</owners>
 
     <!-- License and project URLs provide links for the gallery -->
-    <licenseUrl>https://github.com/RononDex/AwesomeChatBot/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/RononDex/AwesomeChatBot</projectUrl>
+    <licenseUrl>https://github.com/RononDex/AwesomeChatBot.Discord/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/RononDex/AwesomeChatBot.Discord</projectUrl>
 
     <!-- The icon is used in Visual Studio's package manager UI -->
     <!--<iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>-->
