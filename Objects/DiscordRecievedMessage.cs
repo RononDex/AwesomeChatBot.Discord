@@ -80,9 +80,9 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             this._author = new DiscordUser(wrapper, DiscordMessage.Author);
             
             if (discordMessage.Channel is SocketDMChannel)            
-                this._channel = new DiscordChannel(wrapper, discordMessage.Channel as SocketDMChannel);
+                this._channel = new Objects.DiscordChannel(wrapper, discordMessage.Channel as SocketDMChannel);
             else
-                this._channel = new DiscordChannel(wrapper, discordMessage.Channel as SocketGuildChannel);
+                this._channel = new Objects.DiscordChannel(wrapper, discordMessage.Channel as SocketGuildChannel);
             
 
             // Load attachements

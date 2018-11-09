@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using global::Discord;
 
 namespace AwesomeChatBot.DiscordWrapper.Objects
 {
@@ -15,14 +16,14 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// The original discord Attachement (if any)
         /// </summary>
-        public Discord.Attachment Attachement { get; set; }
+        public global::Discord.Attachment Attachement { get; set; }
 
         /// <summary>
         /// Used by the discord wrapper when a message is recieved
         /// </summary>
         /// <param name="wrapper">ApiWrapper</param>
         /// <param name="attechement">The recieved discord attachement</param>
-        public DiscordAttachement(ApiWrapper.ApiWrapper wrapper, Discord.Attachment attechement) : base(wrapper)
+        public DiscordAttachement(ApiWrapper.ApiWrapper wrapper, global::Discord.Attachment attechement) : base(wrapper)
         {
             this.Attachement = attechement;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -36,6 +36,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             #endregion
 
             this.GuildChannel = channel;
+            this._server = new  DiscordGuild(wrapper, channel.Guild);
         }
 
         /// <summary>
@@ -74,6 +75,17 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public override string ChannelId => this.GuildChannel != null ?
             Convert.ToString(this.GuildChannel.Id) :
             Convert.ToString(this.DMChannel.Id);
+
+        /// <summary>
+        /// Internal reference to the discord server
+        /// </summary>
+        private DiscordGuild _server;
+
+        /// <summary>
+        /// A reference to the parent server that this channel belongs to
+        /// </summary>
+        /// <returns></returns>
+        public override Server ParentServer => this._server;
 
         /// <summary>
         /// Gets a string that can be used to mention this channel in chat messages

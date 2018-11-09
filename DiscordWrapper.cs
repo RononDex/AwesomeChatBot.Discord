@@ -72,7 +72,7 @@ namespace AwesomeChatBot.DiscordWrapper
             try
             {
                 // Login into discord
-                this.DiscordClient.LoginAsync(Discord.TokenType.Bot, this.DiscordToken).Wait();
+                this.DiscordClient.LoginAsync(global::Discord.TokenType.Bot, this.DiscordToken).Wait();
             }
             catch (Exception)
             {
