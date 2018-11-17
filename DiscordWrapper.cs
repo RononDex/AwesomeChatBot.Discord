@@ -18,6 +18,10 @@ namespace AwesomeChatBot.DiscordWrapper
         /// </summary>
         private string DiscordToken { get; set; }
 
+        /// <summary>
+        /// Internal reference to the discord client
+        /// </summary>
+        /// <value></value>
         private DiscordSocketClient DiscordClient { get; set; }
 
         /// <summary>
@@ -35,6 +39,17 @@ namespace AwesomeChatBot.DiscordWrapper
         /// Name of the wrapper
         /// </summary>
         public override string Name => "DiscordWrapper";
+
+        /// <summary>
+        /// Discord formatter instance
+        /// </summary>
+        /// <returns></returns>
+        private DiscordMessageFormatter _messageFormatter = new DiscordMessageFormatter();
+
+        /// <summary>
+        /// The formatter used to format discord messages
+        /// </summary>
+        public override MessageFormatter MessageFormatter => this._messageFormatter;
 
         /// <summary>
         /// Creates an instance of the DiscordWrapper
