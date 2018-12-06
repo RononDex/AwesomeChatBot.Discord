@@ -77,12 +77,12 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             this.DiscordMessage = discordMessage;
             this._isBotMentioned = isBotMentioned;
 
-            this._author = new DiscordUser(wrapper, DiscordMessage.Author);
+            this._author = new DiscordUser(this.ApiWrapper, DiscordMessage.Author);
             
             if (discordMessage.Channel is SocketDMChannel)            
-                this._channel = new Objects.DiscordChannel(wrapper, discordMessage.Channel as SocketDMChannel);
+                this._channel = new Objects.DiscordChannel(this.ApiWrapper, discordMessage.Channel as SocketDMChannel);
             else
-                this._channel = new Objects.DiscordChannel(wrapper, discordMessage.Channel as SocketGuildChannel);
+                this._channel = new Objects.DiscordChannel(this.ApiWrapper, discordMessage.Channel as SocketGuildChannel);
             
 
             // Load attachements
@@ -90,7 +90,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             {
                 foreach (var attachement in discordMessage.Attachments)
                 {
-                    this.Attacehemnts.Add(new DiscordAttachement(wrapper, attachement));
+                    this.Attacehemnts.Add(new DiscordAttachement(this.ApiWrapper, attachement));
                 }
             }
         }

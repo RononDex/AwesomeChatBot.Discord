@@ -7,12 +7,17 @@ namespace AwesomeChatBot.DiscordWrapper
     {
         public override string Bold(string message)
         {
-            return $"*{message}*";
+            return $"**{message}**";
+        }
+
+        public override string CodeBlock(string message, string language = null)
+        {
+            return $"```{language}\r\n{message}\r\n```";
         }
 
         public override string Italic(string message)
         {
-            return $"**{message}**";
+            return $"*{message}*";
         }
 
         public override string Quote(string message)

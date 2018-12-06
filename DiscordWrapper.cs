@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using AwesomeChatBot.DiscordWrapper.Objects;
+using AwesomeChatBot.Config;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
@@ -74,8 +75,10 @@ namespace AwesomeChatBot.DiscordWrapper
         /// <summary>
         /// Initializes the 
         /// </summary>
-        public override void Initialize()
+        public override void Initialize(ConfigStore configStore)
         {
+            base.Initialize(configStore);
+
             // Setup the discord client
             this.DiscordClient = new DiscordSocketClient(new DiscordSocketConfig()
             {
