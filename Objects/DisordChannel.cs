@@ -109,7 +109,10 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             // If direct message, we have to send the message in that channel
             if (this.IsDirectMessageChannel)
             {
-                Task task = DMChannel.SendMessageAsync(message.Content);
+                Task task = Task.Factory.StartNew(() => { 
+                    if (!string.IsNullOrEmpty(message.Content))
+                        DMChannel.SendMessageAsync(message.Content).Wait();
+                });
 
                 if (message.Attacehemnts != null && message.Attacehemnts.Count > 0)
                 {
@@ -128,7 +131,10 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             }
             else // else use the discord guild channel
             {
-                Task task = ((ITextChannel)GuildChannel).SendMessageAsync(message.Content);
+                Task task = Task.Factory.StartNew(() => {
+                    if (!string.IsNullOrEmpty(message.Content))
+                    ((ITextChannel)GuildChannel).SendMessageAsync(message.Content).Wait(); 
+                });
 
                 if (message.Attacehemnts != null && message.Attacehemnts.Count > 0)
                 {
