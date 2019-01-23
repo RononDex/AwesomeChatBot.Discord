@@ -5,7 +5,7 @@
     <id>AwesomeChatBot.Discord</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>$version$</version>
+    <version>1.0.2</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org 
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -21,7 +21,7 @@
     <owners>RononDex</owners>
 
     <!-- License and project URLs provide links for the gallery -->
-    <licenseUrl>https://github.com/RononDex/AwesomeChatBot.Discord/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/RononDex/AwesomeChatBot.Discord</projectUrl>
 
     <!-- The icon is used in Visual Studio's package manager UI -->
@@ -34,14 +34,16 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Initial upload for testing (WIP)</releaseNotes>
+    <releaseNotes>Somehow the package got uploaded without the .dll. Fixed now</releaseNotes>
 
     <!-- 
             The description can be used in package manager UI. Note that the
             nuget.org gallery uses information you add in the portal. 
         -->
     <description>
-      This package will allow your bot built with the AweomeChatBot framework to access discord
+      This package will allow your bot built with the AweomeChatBot framework to access discord.
+
+      For further documentation see the project site.
     </description>
 
     <!-- Tags appear in the gallery and can be used for tag searches -->
@@ -49,13 +51,13 @@
 
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
-      <dependency id="Discord.Net" version="2.0.0-beta" />
-      <dependency id="AwesomeChatBot" version="0.3.0-pre" />
+      <dependency id="Discord.Net" version="2.0.1" />
+      <dependency id="AwesomeChatBot" version="1.0.2" />
     </dependencies>
   </metadata>
 
   <!-- A readme.txt to display when the package is installed -->
   <files>
-    <!--<file src="readme.txt" target="" />-->
+      <file src="bin\Release\netstandard2.0\*.dll" target="lib\netstandard2.0\"/>
   </files>
 </package>
