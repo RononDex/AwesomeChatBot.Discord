@@ -5,7 +5,7 @@
     <id>AwesomeChatBot.Discord</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org 
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -34,7 +34,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Somehow the package got uploaded without the .dll. Fixed now</releaseNotes>
+    <releaseNotes>Bugfix: When bot had a nickname, it did no longer respond to messages</releaseNotes>
 
     <!-- 
             The description can be used in package manager UI. Note that the
