@@ -9,7 +9,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
     /// <summary>
     /// A recieved discord message
     /// </summary>
-    public class DiscordRecievedMessage : ApiWrapper.RecievedMessage
+    public class DiscordRecievedMessage : ApiWrapper.ReceivedMessage
     {
         /// <summary>
         /// The underlying discord message object
@@ -38,7 +38,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// List of attachements
         /// </summary>
-        public override List<Attachement> Attacehemnts { get; set; } = new List<Attachement>();
+        public override List<Attachment> Attacehemnts { get; set; } = new List<Attachment>();
 
         /// <summary>
         /// The formatted content of the message
@@ -90,7 +90,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             {
                 foreach (var attachement in discordMessage.Attachments)
                 {
-                    this.Attacehemnts.Add(new DiscordAttachement(this.ApiWrapper, attachement));
+                    this.Attacehemnts.Add(new DiscordAttachment(this.ApiWrapper, attachement));
                 }
             }
         }

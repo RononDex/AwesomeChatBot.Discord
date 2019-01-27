@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
@@ -18,7 +17,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// 
         /// </summary>
         /// <param name="wrapper"></param>
-        /// <param name="disocrdGuild"></param>
+        /// <param name="discordGuild"></param>
         public DiscordGuild(ApiWrapper.ApiWrapper wrapper, SocketGuild discordGuild) : base(wrapper)
         {
             #region PRECONDITIONS

@@ -145,7 +145,7 @@ namespace AwesomeChatBot.DiscordWrapper
                     var messageObj = new DiscordRecievedMessage(this, message, isMentioned);
 
                     // Propagate the event
-                    base.OnMessageRecieved(messageObj);
+                    base.OnMessageReceived(messageObj);
                });
         }
 
