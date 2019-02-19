@@ -39,7 +39,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         private string _name;
 
         /// <summary>
-        /// The name of the attachement
+        /// The name of the attachment
         /// </summary>
         public override string Name
         {
