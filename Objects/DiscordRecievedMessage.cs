@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
 
 namespace AwesomeChatBot.DiscordWrapper.Objects
 {
     /// <summary>
-    /// A recieved discord message
+    /// A received discord message
     /// </summary>
-    public class DiscordRecievedMessage : ApiWrapper.ReceivedMessage
+    public class DiscordReceivedMessage : ApiWrapper.ReceivedMessage
     {
         /// <summary>
         /// The underlying discord message object
@@ -36,9 +35,9 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         }
 
         /// <summary>
-        /// List of attachements
+        /// List of attachments
         /// </summary>
-        public override List<Attachment> Attacehemnts { get; set; } = new List<Attachment>();
+        public override List<Attachment> Attachments { get; set; } = new List<Attachment>();
 
         /// <summary>
         /// The formatted content of the message
@@ -50,12 +49,12 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// Internal storage of the channel
         /// </summary>
         private Channel _channel;
-        
+
         /// <summary>
-        /// The channel in which this message was recieved
+        /// The channel in which this message was received
         /// </summary>
         /// <value></value>
-        public override Channel Channel { get {return _channel;} }
+        public override Channel Channel { get { return _channel; } }
 
         private bool _isBotMentioned;
 
@@ -65,7 +64,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// Default constructor
         /// </summary>
         /// <param name="wrapper"></param>
-        public DiscordRecievedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage, bool isBotMentioned = false) : base(wrapper)
+        public DiscordReceivedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage, bool isBotMentioned = false) : base(wrapper)
         {
             #region PRECONDITIONS
 
@@ -78,19 +77,19 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             this._isBotMentioned = isBotMentioned;
 
             this._author = new DiscordUser(this.ApiWrapper, DiscordMessage.Author);
-            
-            if (discordMessage.Channel is SocketDMChannel)            
+
+            if (discordMessage.Channel is SocketDMChannel)
                 this._channel = new Objects.DiscordChannel(this.ApiWrapper, discordMessage.Channel as SocketDMChannel);
             else
                 this._channel = new Objects.DiscordChannel(this.ApiWrapper, discordMessage.Channel as SocketGuildChannel);
-            
 
-            // Load attachements
+
+            // Load attachments
             if (discordMessage.Attachments != null && discordMessage.Attachments.Count > 0)
             {
-                foreach (var attachement in discordMessage.Attachments)
+                foreach (var attachment in discordMessage.Attachments)
                 {
-                    this.Attacehemnts.Add(new DiscordAttachment(this.ApiWrapper, attachement));
+                    this.Attachments.Add(new DiscordAttachment(this.ApiWrapper, attachment));
                 }
             }
         }

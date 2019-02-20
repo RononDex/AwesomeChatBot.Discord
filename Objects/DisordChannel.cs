@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
 using Discord;
@@ -22,7 +20,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public SocketDMChannel DMChannel { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper">A reference to the api wrapper</param>
         /// <param name="channel">A reference to the discord channel object</param>
@@ -36,11 +34,11 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             #endregion
 
             this.GuildChannel = channel;
-            this._server = new  DiscordGuild(wrapper, channel.Guild);
+            this._server = new DiscordGuild(wrapper, channel.Guild);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper">A reference to the api wrapper</param>
         /// <param name="channel">A reference to the discord dm channel object</param>
@@ -100,7 +98,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         }
 
         /// <summary>
-        /// Sends a message in the channel (asynchroniously)
+        /// Sends a message in the channel (asynchronously)
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -109,19 +107,20 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             // If direct message, we have to send the message in that channel
             if (this.IsDirectMessageChannel)
             {
-                Task task = Task.Factory.StartNew(() => { 
+                Task task = Task.Factory.StartNew(() =>
+                {
                     if (!string.IsNullOrEmpty(message.Content))
                         DMChannel.SendMessageAsync(message.Content).Wait();
                 });
 
-                if (message.Attacehemnts != null && message.Attacehemnts.Count > 0)
+                if (message.Attachments != null && message.Attachments.Count > 0)
                 {
-                    foreach (var attachement in message.Attacehemnts)
+                    foreach (var attachment in message.Attachments)
                     {
                         task = task.ContinueWith((prevTask) =>
                             {
                                 prevTask.Wait();
-                                return DMChannel.SendFileAsync(new MemoryStream(attachement.Content), attachement.Name, null);
+                                return DMChannel.SendFileAsync(new MemoryStream(attachment.Content), attachment.Name, null);
                             }
                         );
                     }
@@ -131,19 +130,20 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             }
             else // else use the discord guild channel
             {
-                Task task = Task.Factory.StartNew(() => {
+                Task task = Task.Factory.StartNew(() =>
+                {
                     if (!string.IsNullOrEmpty(message.Content))
-                    ((ITextChannel)GuildChannel).SendMessageAsync(message.Content).Wait(); 
+                        ((ITextChannel)GuildChannel).SendMessageAsync(message.Content).Wait();
                 });
 
-                if (message.Attacehemnts != null && message.Attacehemnts.Count > 0)
+                if (message.Attachments != null && message.Attachments.Count > 0)
                 {
-                    foreach (var attachement in message.Attacehemnts)
+                    foreach (var attachment in message.Attachments)
                     {
                         task = task.ContinueWith((prevTask) =>
                             {
                                 prevTask.Wait();
-                                task = ((ITextChannel)GuildChannel).SendFileAsync(new MemoryStream(attachement.Content), attachement.Name, null);
+                                task = ((ITextChannel)GuildChannel).SendFileAsync(new MemoryStream(attachment.Content), attachment.Name, null);
                             }
                         );
                     }

@@ -34,7 +34,7 @@ namespace AwesomeChatBot.DiscordWrapper
         /// Logger instance
         /// </summary>
         /// <value></value>
-        private ILogger Logger {get; set;}
+        private ILogger Logger { get; set; }
 
         /// <summary>
         /// Name of the wrapper
@@ -73,7 +73,7 @@ namespace AwesomeChatBot.DiscordWrapper
         }
 
         /// <summary>
-        /// Initializes the 
+        /// Initializes the
         /// </summary>
         public override void Initialize(ConfigStore configStore)
         {
@@ -103,9 +103,9 @@ namespace AwesomeChatBot.DiscordWrapper
             this.DiscordClient.StartAsync().Wait();
 
             // Setup the events
-            this.DiscordClient.MessageReceived += OnMessageRecieved;
+            this.DiscordClient.MessageReceived += OnMessageReceived;
             this.DiscordClient.GuildAvailable += OnServerAvailable;
-            this.DiscordClient.GuildUnavailable += OnServerUnavaible;
+            this.DiscordClient.GuildUnavailable += OnServerUnavailable;
         }
 
         #region API Events
@@ -129,23 +129,23 @@ namespace AwesomeChatBot.DiscordWrapper
 
 
         /// <summary>
-        /// When a new message is recieved
+        /// When a new message is received
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
-        protected Task OnMessageRecieved(SocketMessage message)
+        protected Task OnMessageReceived(SocketMessage message)
         {
             return Task.Factory.StartNew(() =>
                {
-                    var botUserMention = this.DiscordClient.CurrentUser.Mention.Replace("!", "");
-                    var isMentioned = message.Content.Contains(botUserMention) 
-                            || message.Content.Contains(this.DiscordClient.CurrentUser.Mention);
+                   var botUserMention = this.DiscordClient.CurrentUser.Mention.Replace("!", "");
+                   var isMentioned = message.Content.Contains(botUserMention)
+                           || message.Content.Contains(this.DiscordClient.CurrentUser.Mention);
 
-                    // Create the message object
-                    var messageObj = new DiscordRecievedMessage(this, message, isMentioned);
+                   // Create the message object
+                   var messageObj = new DiscordReceivedMessage(this, message, isMentioned);
 
-                    // Propagate the event
-                    base.OnMessageReceived(messageObj);
+                   // Propagate the event
+                   base.OnMessageReceived(messageObj);
                });
         }
 
@@ -155,7 +155,7 @@ namespace AwesomeChatBot.DiscordWrapper
         /// </summary>
         /// <param name="server"></param>
         /// <returns></returns>
-        protected Task OnServerUnavaible(SocketGuild server)
+        protected Task OnServerUnavailable(SocketGuild server)
         {
             return Task.Factory.StartNew(() =>
             {
@@ -170,7 +170,7 @@ namespace AwesomeChatBot.DiscordWrapper
         #endregion
 
         /// <summary>
-        /// Get a list of all avialable servers
+        /// Get a list of all available servers
         /// </summary>
         /// <returns></returns>
         public override List<Server> GetAvailableServers()
