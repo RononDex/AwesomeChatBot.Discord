@@ -5,7 +5,7 @@
     <id>AwesomeChatBot.Discord</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.0.3</version>
+    <version>1.1.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -52,7 +52,7 @@
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
       <dependency id="Discord.Net" version="2.0.1" />
-      <dependency id="AwesomeChatBot" version="1.0.2" />
+      <dependency id="AwesomeChatBot" version="1.1.0" />
     </dependencies>
   </metadata>
 

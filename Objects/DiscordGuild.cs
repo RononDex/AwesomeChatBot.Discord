@@ -14,7 +14,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public SocketGuild Guild { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="wrapper"></param>
         /// <param name="discordGuild"></param>
@@ -53,7 +53,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         }
 
         /// <summary>
-        /// Gets a list of all 
+        /// Gets a list of all
         /// </summary>
         /// <returns></returns>
         public override Task<List<Channel>> GetAllChannelsAsync()
