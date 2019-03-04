@@ -3,7 +3,7 @@ namespace AwesomeChatBot.DiscordWrapper
     /// <summary>
     /// The discord message formatter
     /// </summary>
-    public class DiscordMessageFormatter : global::AwesomeChatBot.ApiWrapper.MessageFormatter
+    public class DiscordMessageFormatter : ApiWrapper.MessageFormatter
     {
         public override string Bold(string message)
         {
@@ -23,6 +23,11 @@ namespace AwesomeChatBot.DiscordWrapper
         public override string Quote(string message)
         {
             return $"```\r\n{message}\r\n```";
+        }
+
+        public override string Underline(string message)
+        {
+            return $"__{message}__";
         }
     }
 }
