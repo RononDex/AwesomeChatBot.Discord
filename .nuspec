@@ -21,7 +21,7 @@
     <owners>RononDex</owners>
 
     <!-- License and project URLs provide links for the gallery -->
-    <licenseUrl>https://github.com/RononDex/AwesomeChatBot.Discord/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/RononDex/AwesomeChatBot.Discord</projectUrl>
 
     <!-- The icon is used in Visual Studio's package manager UI -->
