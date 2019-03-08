@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 
 namespace AwesomeChatBot.DiscordWrapper.Objects
 {
@@ -43,13 +42,12 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// </summary>
         public override string Name
         {
-            get => _name1;
-            set => _name1 = value;
+            get => _name;
+            set => _name = value;
         }
 
 
         private byte[] _content;
-        private string _name1;
 
         /// <summary>
         /// The content of the attachment
@@ -62,12 +60,8 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
                 if (this.Attachment != null && _content == null)
                 {
                     var wc = new WebClient();
-                    using (var memstream = new MemoryStream(wc.DownloadData(this.Attachment.Url)))
-                    {
-                        _content = memstream.ToArray();
-                    }
+                    _content = wc.DownloadData(this.Attachment.Url);
                 }
-
                 return _content;
             }
             set { _content = value; }
