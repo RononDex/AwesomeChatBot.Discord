@@ -2,7 +2,6 @@
 using AwesomeChatBot.ApiWrapper;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using AwesomeChatBot.DiscordWrapper.Objects;
 using AwesomeChatBot.Config;
@@ -12,7 +11,7 @@ namespace AwesomeChatBot.DiscordWrapper
     /// <summary>
     /// Discord API Wrapper for the "AwesomeChatBot" Framework
     /// </summary>
-    public class DiscordWrapper : ApiWrapper.ApiWrapper
+    public partial class DiscordWrapper : ApiWrapper.ApiWrapper
     {
         /// <summary>
         /// The token used to authenticate against discord API
@@ -108,79 +107,6 @@ namespace AwesomeChatBot.DiscordWrapper
             this.DiscordClient.GuildUnavailable += OnServerUnavailable;
             this.DiscordClient.UserJoined += OnUserJoined;
         }
-
-        #region API Events
-
-        /// <summary>
-        /// Raised when a new server becomes available (connected)
-        /// </summary>
-        /// <param name="server"></param>
-        /// <returns></returns>
-        protected Task OnServerAvailable(SocketGuild server)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                // Create the server object
-                var serverObj = new DiscordGuild(this, server);
-
-                // Propagate event to framework
-                base.OnServerAvailable(serverObj);
-            });
-        }
-
-
-        /// <summary>
-        /// When a new message is received
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
-        protected Task OnMessageReceived(SocketMessage message)
-        {
-            return Task.Factory.StartNew(() =>
-               {
-                   var botUserMention = this.DiscordClient.CurrentUser.Mention.Replace("!", "");
-                   var isMentioned = message.Content.Contains(botUserMention)
-                           || message.Content.Contains(this.DiscordClient.CurrentUser.Mention);
-
-                   // Create the message object
-                   var messageObj = new DiscordReceivedMessage(this, message, isMentioned);
-
-                   // Propagate the event
-                   base.OnMessageReceived(messageObj);
-               });
-        }
-
-
-        /// <summary>
-        /// When a server becomes unavailable (disconnected)
-        /// </summary>
-        /// <param name="server"></param>
-        /// <returns></returns>
-        protected Task OnServerUnavailable(SocketGuild server)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                // Create the server object
-                var serverObj = new DiscordGuild(this, server);
-
-                // Raise the event
-                base.OnServerUnavailable(serverObj);
-            });
-        }
-
-        protected Task OnUserJoined(SocketGuildUser user)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                // Materialize the objects
-                var userObj = new DiscordUser(this, user);
-                var serverObj = new DiscordGuild(this, user.Guild);
-
-                base.OnNewUserJoinedServer(userObj, serverObj);
-            });
-        }
-
-        #endregion
 
         /// <summary>
         /// Get a list of all available servers
