@@ -106,6 +106,7 @@ namespace AwesomeChatBot.DiscordWrapper
             this.DiscordClient.MessageReceived += OnMessageReceived;
             this.DiscordClient.GuildAvailable += OnServerAvailable;
             this.DiscordClient.GuildUnavailable += OnServerUnavailable;
+            this.DiscordClient.UserJoined += OnUserJoined;
         }
 
         #region API Events
@@ -164,6 +165,18 @@ namespace AwesomeChatBot.DiscordWrapper
 
                 // Raise the event
                 base.OnServerUnavailable(serverObj);
+            });
+        }
+
+        protected Task OnUserJoined(SocketGuildUser user)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                // Materialize the objects
+                var userObj = new DiscordUser(this, user);
+                var serverObj = new DiscordGuild(this, user.Guild);
+
+                base.OnNewUserJoinedServer(userObj, serverObj);
             });
         }
 
