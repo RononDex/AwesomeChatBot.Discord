@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
@@ -43,13 +44,24 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public override string ServerID => Convert.ToString(this.Guild.Id);
 
         /// <summary>
-        /// Servers dont have a description on discord
+        /// Servers don't have a description on discord
         /// </summary>
         public override string Description => null;
 
+        /// <summary>
+        /// Tries to find a channel with the given name, if not found returns NULL
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public override Task<Channel> ResolveChannelAsync(string name)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                var channelOrNull = Guild.Channels.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+                return channelOrNull != null
+                    ? new DiscordChannel(ApiWrapper, channelOrNull) as Channel
+                    : null;
+            });
         }
 
         /// <summary>
@@ -58,7 +70,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <returns></returns>
         public override Task<List<Channel>> GetAllChannelsAsync()
         {
-            throw new NotImplementedException();
+            return Task.Run(() => Guild.Channels.Select(x => new DiscordChannel(ApiWrapper, x) as Channel).ToList());
         }
     }
 }
