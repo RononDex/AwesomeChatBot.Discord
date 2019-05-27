@@ -1,4 +1,3 @@
-using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
 
 namespace AwesomeChatBot.DiscordWrapper.Objects
@@ -15,5 +14,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public override string RoleId => DiscordRole.Id.ToString();
 
         public override string Name => DiscordRole.Name;
+
+        public override bool IsAdmin => DiscordRole.Permissions.Administrator;
     }
 }
