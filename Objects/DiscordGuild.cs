@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
+using Discord;
 
 namespace AwesomeChatBot.DiscordWrapper.Objects
 {
-    public class DiscordGuild : ApiWrapper.Server
+    public class DiscordGuild : Server
     {
         /// <summary>
         /// The underlying discord guild object
         /// </summary>
-        public SocketGuild Guild { get; set; }
+        public SocketGuild Guild { get; }
 
         /// <summary>
         ///
@@ -28,9 +29,9 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             if (discordGuild == null)
                 throw new ArgumentNullException("Parameter discordGuild can not be null!");
 
-            #endregion
+            #endregion PRECONDITIONS
 
-            this.Guild = discordGuild;
+            Guild = discordGuild;
         }
 
         /// <summary>
@@ -57,7 +58,10 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         {
             return Task.Run(() =>
             {
-                var channelOrNull = Guild.Channels.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+                var channelOrNull = Guild.Channels.FirstOrDefault(x =>
+                    string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)
+                    && x is ITextChannel);
+
                 return channelOrNull != null
                     ? new DiscordChannel(ApiWrapper, channelOrNull) as Channel
                     : null;
