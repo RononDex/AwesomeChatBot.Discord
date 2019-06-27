@@ -85,7 +85,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
 
 
             // Load attachments
-            if (discordMessage.Attachments != null && discordMessage.Attachments.Count > 0)
+            if (discordMessage.Attachments?.Count > 0)
             {
                 foreach (var attachment in discordMessage.Attachments)
                 {

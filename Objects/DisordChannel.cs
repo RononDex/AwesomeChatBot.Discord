@@ -17,7 +17,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// A reference to the discord DM channel
         /// </summary>
-        public SocketDMChannel DMChannel { get; private set; }
+        public SocketDMChannel DMChannel { get; }
 
         /// <summary>
         ///
@@ -26,15 +26,8 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <param name="channel">A reference to the discord channel object</param>
         public DiscordChannel(ApiWrapper.ApiWrapper wrapper, SocketGuildChannel channel) : base(wrapper)
         {
-            #region PRECONDITIONS
-
-            if (channel == null)
-                throw new ArgumentNullException("Parameter channel can not be null!");
-
-            #endregion
-
-            this.GuildChannel = channel;
-            this._server = new DiscordGuild(wrapper, channel.Guild);
+            GuildChannel = channel ?? throw new ArgumentNullException("Parameter channel can not be null!");
+            _server = new DiscordGuild(wrapper, channel.Guild);
         }
 
         /// <summary>
@@ -77,7 +70,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// Internal reference to the discord server
         /// </summary>
-        private DiscordGuild _server;
+        private readonly DiscordGuild _server;
 
         /// <summary>
         /// A reference to the parent server that this channel belongs to
@@ -105,15 +98,15 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public override Task SendMessageAsync(SendMessage message)
         {
             // If direct message, we have to send the message in that channel
-            if (this.IsDirectMessageChannel)
+            if (IsDirectMessageChannel)
             {
-                Task task = Task.Factory.StartNew(() =>
+                var task = Task.Factory.StartNew(() =>
                 {
                     if (!string.IsNullOrEmpty(message.Content))
                         DMChannel.SendMessageAsync(message.Content).Wait();
                 });
 
-                if (message.Attachments != null && message.Attachments.Count > 0)
+                if (message.Attachments?.Count > 0)
                 {
                     foreach (var attachment in message.Attachments)
                     {
@@ -136,14 +129,17 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
                         ((ITextChannel)GuildChannel).SendMessageAsync(message.Content).Wait();
                 });
 
-                if (message.Attachments != null && message.Attachments.Count > 0)
+                if (message.Attachments?.Count > 0)
                 {
                     foreach (var attachment in message.Attachments)
                     {
                         task = task.ContinueWith((prevTask) =>
                             {
                                 prevTask.Wait();
-                                task = ((ITextChannel)GuildChannel).SendFileAsync(new MemoryStream(attachment.Content), attachment.Name, null);
+                                using (var memoryStream = new MemoryStream(attachment.Content))
+                                {
+                                    task = ((ITextChannel)GuildChannel).SendFileAsync(memoryStream, attachment.Name, null);
+                                }
                             }
                         );
                     }

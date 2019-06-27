@@ -44,17 +44,18 @@ namespace AwesomeChatBot.DiscordWrapper
         /// Discord formatter instance
         /// </summary>
         /// <returns></returns>
-        private DiscordMessageFormatter _messageFormatter = new DiscordMessageFormatter();
+        private readonly DiscordMessageFormatter _messageFormatter = new DiscordMessageFormatter();
 
         /// <summary>
         /// The formatter used to format discord messages
         /// </summary>
-        public override MessageFormatter MessageFormatter => this._messageFormatter;
+        public override MessageFormatter MessageFormatter => _messageFormatter;
 
         /// <summary>
         /// Creates an instance of the DiscordWrapper
         /// </summary>
         /// <param name="token">The token to authenticate with the discord API</param>
+        /// <param name="loggingFactory"></param>
         public DiscordWrapper(string token, ILoggerFactory loggingFactory)
         {
             #region  PRECONDITIONS
@@ -64,11 +65,11 @@ namespace AwesomeChatBot.DiscordWrapper
             if (loggingFactory == null)
                 throw new ArgumentNullException("Parameter \"loggingFactory\" can not be null!");
 
-            #endregion
+            #endregion PRECONDITIONS
 
-            this.DiscordToken = token;
-            this.LoggerFactory = loggingFactory;
-            this.Logger = this.LoggerFactory.CreateLogger(this.GetType().FullName);
+            DiscordToken = token;
+            LoggerFactory = loggingFactory;
+            Logger = LoggerFactory.CreateLogger(GetType().FullName);
         }
 
         /// <summary>
@@ -79,33 +80,30 @@ namespace AwesomeChatBot.DiscordWrapper
             base.Initialize(configStore);
 
             // Setup the discord client
-            this.DiscordClient = new DiscordSocketClient(new DiscordSocketConfig()
-            {
-                MessageCacheSize = 50,
-            });
+            DiscordClient = new DiscordSocketClient(new DiscordSocketConfig { MessageCacheSize = 50 });
 
-            this.Logger.LogInformation("Loging into discord");
+            Logger.LogInformation("Loging into discord");
 
             try
             {
                 // Login into discord
-                this.DiscordClient.LoginAsync(global::Discord.TokenType.Bot, this.DiscordToken).Wait();
+                DiscordClient.LoginAsync(global::Discord.TokenType.Bot, DiscordToken).Wait();
             }
             catch (Exception)
             {
-                this.Logger.LogCritical("Login failed, check if discord token is valid!");
+                Logger.LogCritical("Login failed, check if discord token is valid!");
                 throw;
             }
 
-            this.Logger.LogInformation("Login successfull");
+            Logger.LogInformation("Login successfull");
 
-            this.DiscordClient.StartAsync().Wait();
+            DiscordClient.StartAsync().Wait();
 
             // Setup the events
-            this.DiscordClient.MessageReceived += OnMessageReceived;
-            this.DiscordClient.GuildAvailable += OnServerAvailable;
-            this.DiscordClient.GuildUnavailable += OnServerUnavailable;
-            this.DiscordClient.UserJoined += OnUserJoined;
+            DiscordClient.MessageReceived += OnMessageReceived;
+            DiscordClient.GuildAvailable += OnServerAvailable;
+            DiscordClient.GuildUnavailable += OnServerUnavailable;
+            DiscordClient.UserJoined += OnUserJoined;
         }
 
         /// <summary>
@@ -116,7 +114,7 @@ namespace AwesomeChatBot.DiscordWrapper
         {
             var result = new List<Server>();
 
-            foreach (var guild in this.DiscordClient.Guilds)
+            foreach (var guild in DiscordClient.Guilds)
             {
                 result.Add(new DiscordGuild(this, guild));
             }

@@ -33,9 +33,9 @@ namespace AwesomeChatBot.DiscordWrapper
         {
             return Task.Factory.StartNew(() =>
                {
-                   var botUserMention = this.DiscordClient.CurrentUser.Mention.Replace("!", "");
+                   var botUserMention = DiscordClient.CurrentUser.Mention.Replace("!", "");
                    var isMentioned = message.Content.Contains(botUserMention)
-                           || message.Content.Contains(this.DiscordClient.CurrentUser.Mention);
+                           || message.Content.Contains(DiscordClient.CurrentUser.Mention);
 
                    // Create the message object
                    var messageObj = new DiscordReceivedMessage(this, message, isMentioned);
