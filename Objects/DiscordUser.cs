@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
@@ -19,13 +20,12 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <param name="socketUser"></param>
         public DiscordUser(ApiWrapper.ApiWrapper wrapper, SocketUser socketUser) : base(wrapper)
         {
-            this.SocketUser = socketUser;
+            SocketUser = socketUser;
             if (socketUser is SocketGuildUser socketGuildUser)
             {
-                this.UserDiscordRoles = new List<DiscordUserRole>();
+                UserDiscordRoles = new List<DiscordUserRole>();
                 socketGuildUser.Roles.ToList().ForEach(x => UserDiscordRoles.Add(new DiscordUserRole(this.ApiWrapper, x)));
             }
-
         }
 
         /// <summary>
@@ -67,6 +67,50 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public override string GetMention()
         {
             return SocketUser.Mention;
+        }
+
+        /// <summary>
+        /// Adds the role with the given name to the user
+        /// </summary>
+        /// <param name="roleName">the name of the role to add</param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        public override void AddRole(string roleName)
+        {
+            if (!(SocketUser is SocketGuildUser socketGuildUser))
+            {
+                throw new InvalidOperationException("Roles can only be added to users on a server!");
+            }
+
+            var discordRole = socketGuildUser.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, roleName, StringComparison.Ordinal));
+            if (discordRole == null)
+            {
+                throw new ArgumentException(message: $"Can not find any role with name {roleName}");
+            }
+
+            socketGuildUser.AddRoleAsync(discordRole).Wait();
+        }
+
+        /// <summary>
+        /// Removes the role with the given name from the user
+        /// </summary>
+        /// <param name="roleName">the name of the role to remove</param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        public override void RemoveRole(string roleName)
+        {
+            if (!(SocketUser is SocketGuildUser socketGuildUser))
+            {
+                throw new InvalidOperationException("Roles can only be added to users on a server!");
+            }
+
+            var discordRole = socketGuildUser.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, roleName, StringComparison.Ordinal));
+            if (discordRole == null)
+            {
+                throw new ArgumentException(message: $"Can not find any role with name {roleName}");
+            }
+
+            socketGuildUser.RemoveRoleAsync(discordRole).Wait();
         }
     }
 }
