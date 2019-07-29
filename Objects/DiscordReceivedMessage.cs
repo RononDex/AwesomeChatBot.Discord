@@ -8,15 +8,14 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
     /// <summary>
     /// A received discord message
     /// </summary>
-    public class DiscordReceivedMessage : ApiWrapper.ReceivedMessage
+    public class DiscordReceivedMessage : ReceivedMessage
     {
         /// <summary>
         /// The underlying discord message object
         /// </summary>
-        public SocketMessage DiscordMessage { get; private set; }
+        public SocketMessage DiscordMessage { get; }
 
-
-        private DiscordUser _author;
+        private readonly DiscordUser _author;
 
         /// <summary>
         /// The author of the message
@@ -48,7 +47,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// Internal storage of the channel
         /// </summary>
-        private Channel _channel;
+        private readonly Channel _channel;
 
         /// <summary>
         /// The channel in which this message was received
@@ -56,7 +55,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <value></value>
         public override Channel Channel { get { return _channel; } }
 
-        private bool _isBotMentioned;
+        private readonly bool _isBotMentioned;
 
         public override bool IsBotMentioned => _isBotMentioned;
 
@@ -66,23 +65,14 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <param name="wrapper"></param>
         public DiscordReceivedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage, bool isBotMentioned = false) : base(wrapper)
         {
-            #region PRECONDITIONS
-
-            if (discordMessage == null)
-                throw new ArgumentNullException("DiscordMessage can not be null!");
-
-            #endregion
-
-            DiscordMessage = discordMessage;
+            DiscordMessage = discordMessage ?? throw new ArgumentNullException(nameof(discordMessage));
             _isBotMentioned = isBotMentioned;
 
             _author = new DiscordUser(ApiWrapper, DiscordMessage.Author);
 
-            if (discordMessage.Channel is SocketDMChannel)
-                _channel = new DiscordChannel(ApiWrapper, discordMessage.Channel as SocketDMChannel);
-            else
-                _channel = new DiscordChannel(ApiWrapper, discordMessage.Channel as SocketGuildChannel);
-
+            _channel = discordMessage.Channel is SocketDMChannel
+                ? new DiscordChannel(ApiWrapper, discordMessage.Channel as SocketDMChannel)
+                : new DiscordChannel(ApiWrapper, discordMessage.Channel as SocketGuildChannel);
 
             // Load attachments
             if (discordMessage.Attachments?.Count > 0)

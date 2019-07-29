@@ -27,8 +27,7 @@ namespace AwesomeChatBot.DiscordWrapper
         /// <summary>
         /// When a new message is received
         /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
+        /// <param name="message"></param>
         protected Task OnMessageReceived(SocketMessage message)
         {
             return Task.Factory.StartNew(() =>

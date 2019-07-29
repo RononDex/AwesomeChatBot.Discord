@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
@@ -12,7 +12,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// A reference to the discord guild channel
         /// </summary>
-        public SocketGuildChannel GuildChannel { get; private set; }
+        public SocketGuildChannel GuildChannel { get; }
 
         /// <summary>
         /// A reference to the discord DM channel
@@ -26,7 +26,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <param name="channel">A reference to the discord channel object</param>
         public DiscordChannel(ApiWrapper.ApiWrapper wrapper, SocketGuildChannel channel) : base(wrapper)
         {
-            GuildChannel = channel ?? throw new ArgumentNullException("Parameter channel can not be null!");
+            GuildChannel = channel ?? throw new ArgumentNullException(nameof(channel));
             _server = new DiscordGuild(wrapper, channel.Guild);
         }
 
@@ -37,26 +37,18 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <param name="channel">A reference to the discord dm channel object</param>
         public DiscordChannel(ApiWrapper.ApiWrapper wrapper, SocketDMChannel channel) : base(wrapper)
         {
-            #region PRECONDITION
-
-            if (channel == null)
-                throw new ArgumentNullException("Parameter channel can not be null!");
-
-
-            #endregion
-
-            this.DMChannel = channel;
+            this.DMChannel = channel ?? throw new ArgumentNullException(nameof(channel));
         }
 
         /// <summary>
         /// True if this is a DM channel
         /// </summary>
-        public override bool IsDirectMessageChannel => this.GuildChannel == null;
+        public override bool IsDirectMessageChannel => GuildChannel == null;
 
         /// <summary>
         /// The name of the channel
         /// </summary>
-        public override string Name => this.GuildChannel != null ?
+        public override string Name => GuildChannel != null ?
             this.GuildChannel.Name :
             DMChannel.Recipient.Username;
 
@@ -64,8 +56,8 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// A unique ID for the channel
         /// </summary>
         public override string ChannelId => this.GuildChannel != null ?
-            Convert.ToString(this.GuildChannel.Id) :
-            Convert.ToString(this.DMChannel.Id);
+            Convert.ToString(GuildChannel.Id) :
+            Convert.ToString(DMChannel.Id);
 
         /// <summary>
         /// Internal reference to the discord server
@@ -75,26 +67,22 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// A reference to the parent server that this channel belongs to
         /// </summary>
-        /// <returns></returns>
-        public override Server ParentServer => this._server;
+        public override Server ParentServer => _server;
 
         /// <summary>
         /// Gets a string that can be used to mention this channel in chat messages
         /// </summary>
-        /// <returns></returns>
         public override string GetMention()
         {
-            if (this.GuildChannel != null)
-                return ((ITextChannel)this.GuildChannel).Mention;
-            else
-                return $"DM channel {this.Name}";
+            return this.GuildChannel != null
+                ? ((ITextChannel)GuildChannel).Mention
+                : $"DM channel {Name}";
         }
 
         /// <summary>
         /// Sends a message in the channel (asynchronously)
         /// </summary>
         /// <param name="message"></param>
-        /// <returns></returns>
         public override Task SendMessageAsync(SendMessage message)
         {
             // If direct message, we have to send the message in that channel
@@ -113,7 +101,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
                         task = task.ContinueWith((prevTask) =>
                             {
                                 prevTask.Wait();
-                                return DMChannel.SendFileAsync(new MemoryStream(attachment.Content), attachment.Name, null);
+                                return DMChannel.SendFileAsync(new MemoryStream(attachment.Content), attachment.Name, text: null);
                             }
                         );
                     }
@@ -123,7 +111,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             }
             else // else use the discord guild channel
             {
-                Task task = Task.Factory.StartNew(() =>
+                var task = Task.Factory.StartNew(() =>
                 {
                     if (!string.IsNullOrEmpty(message.Content))
                         ((ITextChannel)GuildChannel).SendMessageAsync(message.Content).Wait();
@@ -138,7 +126,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
                                 prevTask.Wait();
                                 using (var memoryStream = new MemoryStream(attachment.Content))
                                 {
-                                    task = ((ITextChannel)GuildChannel).SendFileAsync(memoryStream, attachment.Name, null);
+                                    task = ((ITextChannel)GuildChannel).SendFileAsync(memoryStream, attachment.Name, text: null);
                                 }
                             }
                         );

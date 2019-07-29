@@ -25,24 +25,22 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             #region PRECONDITIONS
 
             if (wrapper == null)
-                throw new ArgumentNullException("Parameter wrapper can not be null!");
-            if (discordGuild == null)
-                throw new ArgumentNullException("Parameter discordGuild can not be null!");
+                throw new ArgumentNullException(nameof(wrapper));
 
             #endregion PRECONDITIONS
 
-            Guild = discordGuild;
+            Guild = discordGuild ?? throw new ArgumentNullException(nameof(discordGuild));
         }
 
         /// <summary>
         /// Name of the server
         /// </summary>
-        public override string ServerName => this.Guild.Name;
+        public override string ServerName => Guild.Name;
 
         /// <summary>
         /// Unique ID of the server
         /// </summary>
-        public override string ServerID => Convert.ToString(this.Guild.Id);
+        public override string ServerID => Convert.ToString(Guild.Id);
 
         /// <summary>
         /// Servers don't have a description on discord

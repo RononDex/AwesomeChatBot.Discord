@@ -16,7 +16,7 @@ namespace AwesomeChatBot.DiscordWrapper
         /// <summary>
         /// The token used to authenticate against discord API
         /// </summary>
-        private string DiscordToken { get; set; }
+        private string DiscordToken { get; }
 
         /// <summary>
         /// Internal reference to the discord client
@@ -33,12 +33,12 @@ namespace AwesomeChatBot.DiscordWrapper
         /// Logger instance
         /// </summary>
         /// <value></value>
-        private ILogger Logger { get; set; }
+        private ILogger Logger { get; }
 
         /// <summary>
         /// Name of the wrapper
         /// </summary>
-        public override string Name => "DiscordWrapper";
+        public override string Name => nameof(DiscordWrapper);
 
         /// <summary>
         /// Discord formatter instance
@@ -73,8 +73,9 @@ namespace AwesomeChatBot.DiscordWrapper
         }
 
         /// <summary>
-        /// Initializes the
+        /// Initializes the discord wrapper
         /// </summary>
+        /// <param name="configStore">Instance of the config store used to access configuration</param>
         public override void Initialize(ConfigStore configStore)
         {
             base.Initialize(configStore);
