@@ -78,5 +78,21 @@ namespace AwesomeChatBot.DiscordWrapper
                 base.OnNewUserJoinedServer(userObj, serverObj);
             });
         }
+
+        /// <summary>
+        /// When the bot joins a new server
+        /// </summary>
+        /// <param name="server">The server that was joined</param>
+        /// <returns></returns>
+        protected Task OnJoinedNewServer(SocketGuild server)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                // Materialize the objects
+                var serverObj = new DiscordGuild(this, server);
+
+                base.OnJoinedNewServer(serverObj);
+            });
+        }
     }
 }

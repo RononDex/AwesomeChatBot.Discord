@@ -104,6 +104,7 @@ namespace AwesomeChatBot.DiscordWrapper
             DiscordClient.MessageReceived += OnMessageReceived;
             DiscordClient.GuildAvailable += OnServerAvailable;
             DiscordClient.GuildUnavailable += OnServerUnavailable;
+            DiscordClient.JoinedGuild += OnJoinedNewServer;
             DiscordClient.UserJoined += OnUserJoined;
         }
 
