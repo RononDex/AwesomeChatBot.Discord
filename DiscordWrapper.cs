@@ -106,13 +106,15 @@ namespace AwesomeChatBot.DiscordWrapper
             DiscordClient.GuildUnavailable += OnServerUnavailable;
             DiscordClient.JoinedGuild += OnJoinedNewServer;
             DiscordClient.UserJoined += OnUserJoined;
+            DiscordClient.Connected += OnConnected;
+            DiscordClient.Disconnected += OnDisconnected;
         }
 
         /// <summary>
         /// Get a list of all available servers
         /// </summary>
         /// <returns></returns>
-        public override List<Server> GetAvailableServers()
+        public override IList<Server> GetAvailableServers()
         {
             var result = new List<Server>();
 

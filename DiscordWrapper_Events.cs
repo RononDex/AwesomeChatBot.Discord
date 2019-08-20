@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using AwesomeChatBot.DiscordWrapper.Objects;
 using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
@@ -43,7 +45,6 @@ namespace AwesomeChatBot.DiscordWrapper
                    base.OnMessageReceived(messageObj);
                });
         }
-
 
         /// <summary>
         /// When a server becomes unavailable (disconnected)
@@ -93,6 +94,24 @@ namespace AwesomeChatBot.DiscordWrapper
 
                 base.OnJoinedNewServer(serverObj);
             });
+        }
+
+        /// <summary>
+        /// When the wrapper has connected to the discord API
+        /// </summary>
+        protected Task OnConnected()
+        {
+            return Task.Factory.StartNew(() => base.OnConnected(this));
+        }
+
+        /// <summary>
+        /// When the wrapper has disconnected form the discord API
+        /// </summary>
+        /// <param name="ex">The exception that caused the disconnect</param>
+        protected Task OnDisconnected(Exception ex)
+        {
+            Logger.Log(LogLevel.Error, $"Lost connection to the discord API: {ex}");
+            return Task.Factory.StartNew(() => base.OnDisconnected(this));
         }
     }
 }
