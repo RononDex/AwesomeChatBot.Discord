@@ -5,7 +5,7 @@
     <id>AwesomeChatBot.Discord</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.3.1</version>
+    <version>1.4.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -35,7 +35,10 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      - Bugfixes
+      - Several bugfixes / code clean ups
+      - Implemented "AddRole()" and "RemoveRole()" on users
+      - Implmeneted "Connected" and "Disconnected" event
+      - Implemented "ServerJoined" event
     </releaseNotes>
 
     <!--
@@ -54,12 +57,12 @@
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
       <dependency id="Discord.Net" version="2.1.1" />
-      <dependency id="AwesomeChatBot" version="1.3.0" />
+      <dependency id="AwesomeChatBot" version="1.4.0" />
     </dependencies>
   </metadata>
 
   <!-- A readme.txt to display when the package is installed -->
   <files>
-      <file src="bin\Debug\netstandard2.0\*.dll" target="lib\netstandard2.0\"/>
+    <file src="bin\Debug\netstandard2.0\*.dll" target="lib\netstandard2.0\"/>
   </files>
 </package>
