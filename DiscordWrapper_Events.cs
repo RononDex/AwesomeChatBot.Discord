@@ -25,7 +25,6 @@ namespace AwesomeChatBot.DiscordWrapper
             });
         }
 
-
         /// <summary>
         /// When a new message is received
         /// </summary>
