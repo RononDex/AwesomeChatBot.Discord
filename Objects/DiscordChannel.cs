@@ -91,7 +91,13 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
                 var task = Task.Factory.StartNew(() =>
                 {
                     if (!string.IsNullOrEmpty(message.Content))
+                    {
                         DMChannel.SendMessageAsync(message.Content).Wait();
+                    }
+                    else if (message.EmbeddedMessage != null)
+                    {
+                        SendEmbeddedMessage(message, DMChannel);
+                    }
                 });
 
                 if (message.Attachments?.Count > 0)
@@ -114,7 +120,13 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
                 var task = Task.Factory.StartNew(() =>
                 {
                     if (!string.IsNullOrEmpty(message.Content))
+                    {
                         ((ITextChannel)GuildChannel).SendMessageAsync(message.Content).Wait();
+                    }
+                    else if (message.EmbeddedMessage != null)
+                    {
+                        SendEmbeddedMessage(message, (ISocketMessageChannel)GuildChannel);
+                    }
                 });
 
                 if (message.Attachments?.Count > 0)
@@ -135,6 +147,18 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
 
                 return task;
             }
+        }
+
+        private static void SendEmbeddedMessage(SendMessage message, ISocketMessageChannel channel)
+        {
+            var embedBuilder = new EmbedBuilder();
+            embedBuilder.WithTitle(message.EmbeddedMessage.Title);
+            foreach (var field in message.EmbeddedMessage.Fields)
+            {
+                embedBuilder.AddField(field.Name, field.Content, field.Inline);
+            }
+
+            channel.SendMessageAsync(embed: embedBuilder.Build());
         }
     }
 }
