@@ -154,6 +154,7 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
             var embedBuilder = new EmbedBuilder();
             embedBuilder.WithTitle(message.EmbeddedMessage.Title);
             embedBuilder.WithThumbnailUrl(message.EmbeddedMessage.ThumbnailUrl);
+            embedBuilder.WithDescription(message.EmbeddedMessage.Description);
             foreach (var field in message.EmbeddedMessage.Fields)
             {
                 embedBuilder.AddField(field.Name, field.Content, field.Inline);
