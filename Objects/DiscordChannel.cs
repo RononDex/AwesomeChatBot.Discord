@@ -7,7 +7,7 @@ using Discord.WebSocket;
 
 namespace AwesomeChatBot.DiscordWrapper.Objects
 {
-    public class DiscordChannel : ApiWrapper.Channel
+    public class DiscordChannel : Channel
     {
         /// <summary>
         /// A reference to the discord guild channel
