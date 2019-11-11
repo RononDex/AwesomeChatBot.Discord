@@ -16,5 +16,10 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         public override string Name => DiscordRole.Name;
 
         public override bool IsAdmin => DiscordRole.Permissions.Administrator;
+
+        public override string GetMention()
+        {
+            return DiscordRole.Mention;
+        }
     }
 }
