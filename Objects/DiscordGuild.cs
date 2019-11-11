@@ -70,9 +70,14 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// Gets a list of all
         /// </summary>
         /// <returns></returns>
-        public override Task<List<Channel>> GetAllChannelsAsync()
+        public override async Task<IList<Channel>> GetAllChannelsAsync()
         {
-            return Task.Run(() => Guild.Channels.Select(x => new DiscordChannel(ApiWrapper, x) as Channel).ToList());
+            return Guild.Channels.Select(x => new DiscordChannel(ApiWrapper, x) as Channel).ToList();
+        }
+
+        public override async Task<IList<UserRole>> GetAvailableUserRolesAsync()
+        {
+            return Guild.Roles.Select(role => new DiscordUserRole(ApiWrapper, role) as UserRole).ToList();
         }
     }
 }

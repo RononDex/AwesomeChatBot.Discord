@@ -113,7 +113,6 @@ namespace AwesomeChatBot.DiscordWrapper
         /// <summary>
         /// Get a list of all available servers
         /// </summary>
-        /// <returns></returns>
         public override IList<Server> GetAvailableServers()
         {
             var result = new List<Server>();
