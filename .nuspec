@@ -5,7 +5,7 @@
     <id>AwesomeChatBot.Discord</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.5.1</version>
+    <version>1.5.3</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -35,7 +35,7 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      - Some async bugfixes
+	- Implement new added functions for UserRoles
     </releaseNotes>
 
     <!--
@@ -54,7 +54,7 @@
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
       <dependency id="Discord.Net" version="2.1.1" />
-      <dependency id="AwesomeChatBot" version="1.5.0" />
+      <dependency id="AwesomeChatBot" version="1.5.3" />
     </dependencies>
   </metadata>
 
