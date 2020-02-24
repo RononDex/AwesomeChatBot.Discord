@@ -5,7 +5,7 @@
     <id>AwesomeChatBot.Discord</id>
 
     <!-- The package version number that is used when resolving dependencies -->
-    <version>1.5.4</version>
+    <version>1.6.0</version>
 
     <!--A human-friendly title of the package, typically used in UI displays as on nuget.org
     and the Package Manager in Visual Studio. If not specified, the package ID is used.-->
@@ -35,7 +35,7 @@
 
     <!-- Any details about this particular release -->
     <releaseNotes>
-      - Fix nuget package to contain new version of the AwesomeChatBot.Discord assembly
+    - Upgrade to netstandard2.1
     </releaseNotes>
 
     <!--
@@ -54,12 +54,12 @@
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
       <dependency id="Discord.Net" version="2.1.1" />
-      <dependency id="AwesomeChatBot" version="1.5.3" />
+      <dependency id="AwesomeChatBot" version="1.6.0" />
     </dependencies>
   </metadata>
 
   <!-- A readme.txt to display when the package is installed -->
   <files>
-    <file src="bin\Release\netstandard2.0\*.dll" target="lib\netstandard2.0\"/>
+    <file src="bin\Release\netstandard2.1\*.dll" target="lib\netstandard2.1\"/>
   </files>
 </package>
