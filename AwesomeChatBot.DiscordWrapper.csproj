@@ -28,6 +28,6 @@
 
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <ProjectReference Include="..\AwesomeChatBot\AwesomeChatBot\AwesomeChatBot.csproj" />
+      <ProjectReference Include="lib/AwesomeChatBot/AwesomeChatBot/AwesomeChatBot.csproj" />
   </ItemGroup>
 </Project>
