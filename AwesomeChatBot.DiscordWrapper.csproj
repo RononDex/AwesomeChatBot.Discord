@@ -5,13 +5,17 @@
     <AssemblyVersion>1.6.0.0</AssemblyVersion>
     <FileVersion>1.6.0</FileVersion>
     <Version>1.6.0</Version>
+    <Author>RononDex</Author>
     <!-- The identifier that must be unique within the hosting gallery -->
 
     <PackageId>AwesomeChatBot.DiscordWrapper</PackageId>
-    <NuspecFile>.nuspec</NuspecFile>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>
+        This package will allow your bot built with the AweomeChatBot framework to access discord.
+
+        For further documentation see the project site.
+    </Description>
   </PropertyGroup>
 
   <PropertyGroup>
