@@ -3,12 +3,10 @@ using AwesomeChatBot.ApiWrapper;
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using AwesomeChatBot.DiscordWrapper.Objects;
+using AwesomeChatBot.Discord.Objects;
 using AwesomeChatBot.Config;
-using System.Threading.Tasks;
-using Discord;
 
-namespace AwesomeChatBot.DiscordWrapper
+namespace AwesomeChatBot.Discord
 {
     /// <summary>
     /// Discord API Wrapper for the "AwesomeChatBot" Framework

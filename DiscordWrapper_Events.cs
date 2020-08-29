@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using AwesomeChatBot.DiscordWrapper.Objects;
+using AwesomeChatBot.Discord.Objects;
 using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
-namespace AwesomeChatBot.DiscordWrapper
+namespace AwesomeChatBot.Discord
 {
     public partial class DiscordWrapper
     {

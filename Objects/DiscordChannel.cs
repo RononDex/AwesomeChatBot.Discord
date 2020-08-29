@@ -5,7 +5,7 @@ using AwesomeChatBot.ApiWrapper;
 using Discord;
 using Discord.WebSocket;
 
-namespace AwesomeChatBot.DiscordWrapper.Objects
+namespace AwesomeChatBot.Discord.Objects
 {
     public class DiscordChannel : Channel
     {

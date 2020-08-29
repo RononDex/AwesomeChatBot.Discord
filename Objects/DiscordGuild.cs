@@ -6,7 +6,7 @@ using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
 using Discord;
 
-namespace AwesomeChatBot.DiscordWrapper.Objects
+namespace AwesomeChatBot.Discord.Objects
 {
     public class DiscordGuild : Server
     {
