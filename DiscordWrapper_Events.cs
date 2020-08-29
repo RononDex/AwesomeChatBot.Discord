@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using AwesomeChatBot.DiscordWrapper.Objects;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
@@ -42,6 +43,29 @@ namespace AwesomeChatBot.DiscordWrapper
 
                    // Propagate the event
                    base.OnMessageReceived(messageObj);
+               });
+        }
+
+        /// <summary>
+        /// When a new message is deleted
+        /// </summary>
+        protected Task OnMessageDeleted(Cacheable<IMessage, ulong> cacheable, ISocketMessageChannel channel)
+        {
+            return Task.Factory.StartNew(() =>
+               {
+                   var socketMessage = cacheable.Value as SocketMessage;
+                   if (socketMessage != null)
+                   {
+                       var botUserMention = DiscordClient.CurrentUser.Mention.Replace("!", "");
+                       var isMentioned = socketMessage.Content.Contains(botUserMention)
+                               || socketMessage.Content.Contains(DiscordClient.CurrentUser.Mention);
+
+                       // Create the message object
+                       var messageObj = new DiscordReceivedMessage(this, socketMessage, isMentioned);
+
+                       // Propagate the event
+                       base.OnMessageDeleted(messageObj);
+                   }
                });
         }
 

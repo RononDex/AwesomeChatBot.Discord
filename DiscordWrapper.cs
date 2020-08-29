@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using AwesomeChatBot.DiscordWrapper.Objects;
 using AwesomeChatBot.Config;
+using System.Threading.Tasks;
+using Discord;
 
 namespace AwesomeChatBot.DiscordWrapper
 {
@@ -102,6 +104,7 @@ namespace AwesomeChatBot.DiscordWrapper
 
             // Setup the events
             DiscordClient.MessageReceived += OnMessageReceived;
+            DiscordClient.MessageDeleted += OnMessageDeleted;
             DiscordClient.GuildAvailable += OnServerAvailable;
             DiscordClient.GuildUnavailable += OnServerUnavailable;
             DiscordClient.JoinedGuild += OnJoinedNewServer;
