@@ -1,6 +1,7 @@
 ﻿using System.Net;
+using Discord;
 
-namespace AwesomeChatBot.DiscordWrapper.Objects
+namespace AwesomeChatBot.Discord.Objects
 {
     /// <summary>
     /// Represents an attachments inside a discord message
@@ -11,14 +12,14 @@ namespace AwesomeChatBot.DiscordWrapper.Objects
         /// <summary>
         /// The original discord Attachment (if any)
         /// </summary>
-        public Discord.Attachment Attachment { get; set; }
+        public Attachment Attachment { get; set; }
 
         /// <summary>
         /// Used by the discord wrapper when a message is received
         /// </summary>
         /// <param name="wrapper">ApiWrapper</param>
         /// <param name="attachment">The received discord attachment</param>
-        public DiscordAttachment(ApiWrapper.ApiWrapper wrapper, Discord.Attachment attachment) : base(wrapper)
+        public DiscordAttachment(ApiWrapper.ApiWrapper wrapper, Attachment attachment) : base(wrapper)
         {
             Attachment = attachment;
 

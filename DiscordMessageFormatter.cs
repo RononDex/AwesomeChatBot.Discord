@@ -1,4 +1,4 @@
-namespace AwesomeChatBot.DiscordWrapper
+namespace AwesomeChatBot.Discord
 {
     /// <summary>
     /// The discord message formatter

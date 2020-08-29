@@ -1,6 +1,6 @@
 using Discord.WebSocket;
 
-namespace AwesomeChatBot.DiscordWrapper.Objects
+namespace AwesomeChatBot.Discord.Objects
 {
     public class DiscordUserRole : ApiWrapper.UserRole
     {
