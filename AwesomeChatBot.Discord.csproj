@@ -28,9 +28,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="AwesomeChatBot" Version="1.7.0" />
+    <PackageReference Include="AwesomeChatBot" Version="1.7.1" />
   </ItemGroup>
-
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
       <ProjectReference Include="lib/AwesomeChatBot/AwesomeChatBot/AwesomeChatBot.csproj" />
