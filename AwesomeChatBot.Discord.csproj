@@ -1,11 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyVersion>1.6.2.0</AssemblyVersion>
-    <Version>1.6.2</Version>
+    <AssemblyVersion>1.7.0.0</AssemblyVersion>
+    <Version>1.7.0</Version>
     <Author>RononDex</Author>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <PackageReleaseNotes>
+      - Added ReactionAdded and MessageDeleted events
+      - Added Unique Id to Messages
+      - Implemented Reactions
+    </PackageReleaseNotes>
     <Description>
         This package will allow your bot built with the AweomeChatBot framework to access discord.
 
@@ -22,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="AwesomeChatBot" Version="1.6.3" />
+    <PackageReference Include="AwesomeChatBot" Version="1.7.0" />
   </ItemGroup>
 
 
