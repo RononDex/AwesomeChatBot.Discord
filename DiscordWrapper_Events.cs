@@ -136,5 +136,21 @@ namespace AwesomeChatBot.Discord
             Logger.Log(LogLevel.Error, $"Lost connection to the discord API: {ex}");
             return Task.Factory.StartNew(() => base.OnDisconnected(this));
         }
+
+        /// <summary>
+        /// When the wrapper receives a reaction added
+        /// </summary>
+        /// <param name="cachable"></param>
+        /// <param name="channel"></param>
+        /// <param name="reaction"></param>
+        /// <param name="task"></param>
+        protected Task OnReactionAdded(Cacheable<IUserMessage, ulong> cachable, ISocketMessageChannel channel, SocketReaction reaction)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var reactionObj = new DiscordReaction(this, reaction);
+                base.OnReactionAdded(reactionObj);
+            });
+        }
     }
 }

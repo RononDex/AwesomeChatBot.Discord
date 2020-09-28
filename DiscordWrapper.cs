@@ -109,6 +109,7 @@ namespace AwesomeChatBot.Discord
             DiscordClient.UserJoined += OnUserJoined;
             DiscordClient.Connected += OnConnected;
             DiscordClient.Disconnected += OnDisconnected;
+            DiscordClient.ReactionAdded += OnReactionAdded;
         }
 
         /// <summary>

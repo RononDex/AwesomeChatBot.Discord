@@ -10,78 +10,36 @@ namespace AwesomeChatBot.Discord.Objects
     /// </summary>
     public class DiscordReceivedMessage : ReceivedMessage
     {
-        /// <summary>
-        /// The underlying discord message object
-        /// </summary>
-        public SocketMessage DiscordMessage { get; }
-
-        private readonly DiscordUser _author;
-
-        /// <summary>
-        /// The author of the message
-        /// </summary>
-        public override User Author
-        {
-            get => _author;
-        }
-
-        /// <summary>
-        /// DateTime (UTC) of when the message was posted
-        /// </summary>
-        public override DateTime PostedOnUtc
-        {
-            get => DiscordMessage.CreatedAt.UtcDateTime;
-        }
-
-        /// <summary>
-        /// List of attachments
-        /// </summary>
-        public override List<Attachment> Attachments { get; set; } = new List<Attachment>();
-
-        /// <summary>
-        /// The formatted content of the message
-        /// </summary>
-        public override string Content { get => DiscordMessage.Content; set => throw new NotSupportedException(); }
-
-
-        /// <summary>
-        /// Internal storage of the channel
-        /// </summary>
-        private readonly Channel _channel;
-
-        /// <summary>
-        /// The channel in which this message was received
-        /// </summary>
-        /// <value></value>
-        public override Channel Channel { get { return _channel; } }
+        private readonly DiscordChatMessage _chatMessage;
 
         private readonly bool _isBotMentioned;
 
         public override bool IsBotMentioned => _isBotMentioned;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="wrapper"></param>
+        public override string Id => _chatMessage.Id;
+
+        public override User Author => _chatMessage.Author;
+
+        public override DateTime PostedOnUtc => _chatMessage.PostedOnUtc;
+
+        public override Channel Channel => _chatMessage.Channel;
+
+        public override List<Attachment> Attachments 
+        {
+            get => _chatMessage.Attachments;
+            set => _chatMessage.Attachments = value;
+        }
+
+        public override string Content 
+        {
+            get => _chatMessage.Content;
+            set => _chatMessage.Content = value;
+        }
+
         public DiscordReceivedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage, bool isBotMentioned = false) : base(wrapper)
         {
-            DiscordMessage = discordMessage ?? throw new ArgumentNullException(nameof(discordMessage));
             _isBotMentioned = isBotMentioned;
-
-            _author = new DiscordUser(ApiWrapper, DiscordMessage.Author);
-
-            _channel = discordMessage.Channel is SocketDMChannel
-                ? new DiscordChannel(ApiWrapper, discordMessage.Channel as SocketDMChannel)
-                : new DiscordChannel(ApiWrapper, discordMessage.Channel as SocketGuildChannel);
-
-            // Load attachments
-            if (discordMessage.Attachments?.Count > 0)
-            {
-                foreach (var attachment in discordMessage.Attachments)
-                {
-                    Attachments.Add(new DiscordAttachment(ApiWrapper, attachment));
-                }
-            }
+            _chatMessage = new DiscordChatMessage(wrapper, discordMessage);
         }
     }
 }
