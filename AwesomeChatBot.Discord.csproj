@@ -24,15 +24,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="2.2.0" />
+    <PackageReference Include="Discord.Net" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="AwesomeChatBot" Version="1.7.1" />
+    <PackageReference Include="AwesomeChatBot" Version="1.7.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <ProjectReference Include="../AwesomeChatBot/AwesomeChatBot/AwesomeChatBot.csproj" />
-    <!-- <PackageReference Include="AwesomeChatBot" Version="1.7.1" /> -->
+    <!-- <PackageReference Include="AwesomeChatBot" Version="1.7.3" /> -->
   </ItemGroup>
 </Project>

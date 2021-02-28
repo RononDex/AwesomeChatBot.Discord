@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
 
@@ -14,6 +15,8 @@ namespace AwesomeChatBot.Discord.Objects
 
         private readonly bool _isBotMentioned;
 
+        private readonly SocketMessage discordMessage;
+
         public override bool IsBotMentioned => _isBotMentioned;
 
         public override string Id => _chatMessage.Id;
@@ -24,22 +27,31 @@ namespace AwesomeChatBot.Discord.Objects
 
         public override Channel Channel => _chatMessage.Channel;
 
-        public override List<Attachment> Attachments 
+        public override IList<Attachment> Attachments
         {
             get => _chatMessage.Attachments;
-            set => _chatMessage.Attachments = value;
+            set => throw new InvalidOperationException("The Attachments on existing messages can not be changed");
         }
 
-        public override string Content 
+        public override string Content
         {
             get => _chatMessage.Content;
-            set => _chatMessage.Content = value;
+            set => throw new InvalidOperationException("The message content can not be changed on existing messages");
         }
 
         public DiscordReceivedMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage, bool isBotMentioned = false) : base(wrapper)
         {
             _isBotMentioned = isBotMentioned;
             _chatMessage = new DiscordChatMessage(wrapper, discordMessage);
+            this.discordMessage = discordMessage;
+        }
+
+        public override async Task PublishAsync()
+        {
+            if (discordMessage is SocketUserMessage socketUserMessage)
+            {
+                await socketUserMessage.CrosspostAsync().ConfigureAwait(false);
+            }
         }
     }
 }
