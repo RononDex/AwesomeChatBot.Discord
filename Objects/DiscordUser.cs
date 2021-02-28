@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using AwesomeChatBot.ApiWrapper;
 using Discord.WebSocket;
+using System.Threading.Tasks;
 
 namespace AwesomeChatBot.Discord.Objects
 {
@@ -31,39 +32,28 @@ namespace AwesomeChatBot.Discord.Objects
         /// <summary>
         /// The id of the discord user
         /// </summary>
-        public override string UserID
-        {
-            get => SocketUser.Id.ToString();
-        }
+        public override string UserID => SocketUser.Id.ToString();
 
         /// <summary>
         /// The name of the user
         /// </summary>
-        public override string Name
-        {
-            get => SocketUser.Username;
-        }
+        public override string Name => SocketUser.Username;
 
         /// <summary>
         /// The unique user name
         /// </summary>
-        public override string UniqueUserName
-        {
-            get => SocketUser.Username + "#" + SocketUser.Discriminator;
-        }
+        public override string UniqueUserName => SocketUser.Username + "#" + SocketUser.Discriminator;
 
         private List<DiscordUserRole> UserDiscordRoles { get; set; }
 
         /// <summary>
         /// The roles of the user on a server
         /// </summary>
-        /// <returns></returns>
         public override IReadOnlyList<UserRole> Roles => UserDiscordRoles;
 
         /// <summary>
         /// A string that can be used inside a text message to
         /// </summary>
-        /// <returns></returns>
         public override string GetMention()
         {
             return SocketUser.Mention;
@@ -75,7 +65,7 @@ namespace AwesomeChatBot.Discord.Objects
         /// <param name="roleName">the name of the role to add</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public override void AddRole(string roleName)
+        public override Task AddRoleAsync(string roleName)
         {
             if (!(SocketUser is SocketGuildUser socketGuildUser))
             {
@@ -83,12 +73,10 @@ namespace AwesomeChatBot.Discord.Objects
             }
 
             var discordRole = socketGuildUser.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, roleName, StringComparison.Ordinal));
-            if (discordRole == null)
-            {
-                throw new ArgumentException(message: $"Can not find any role with name {roleName}");
-            }
 
-            socketGuildUser.AddRoleAsync(discordRole).Wait();
+            return discordRole == null
+                ? throw new ArgumentException(message: $"Can not find any role with name {roleName}")
+                : socketGuildUser.AddRoleAsync(discordRole);
         }
 
         /// <summary>
@@ -97,7 +85,7 @@ namespace AwesomeChatBot.Discord.Objects
         /// <param name="roleName">the name of the role to remove</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public override void RemoveRole(string roleName)
+        public override Task RemoveRoleAsync(string roleName)
         {
             if (!(SocketUser is SocketGuildUser socketGuildUser))
             {
@@ -110,7 +98,7 @@ namespace AwesomeChatBot.Discord.Objects
                 throw new ArgumentException(message: $"Can not find any role with name {roleName}");
             }
 
-            socketGuildUser.RemoveRoleAsync(discordRole).Wait();
+            return socketGuildUser.RemoveRoleAsync(discordRole);
         }
     }
 }

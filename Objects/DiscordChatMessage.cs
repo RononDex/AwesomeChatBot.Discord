@@ -17,28 +17,22 @@ namespace AwesomeChatBot.Discord.Objects
         /// <summary>
         /// The author of the message
         /// </summary>
-        public override User Author
-        {
-            get => _author;
-        }
+        public override User Author => _author;
 
         /// <summary>
         /// DateTime (UTC) of when the message was posted
         /// </summary>
-        public override DateTime PostedOnUtc
-        {
-            get => DiscordMessage.CreatedAt.UtcDateTime;
-        }
+        public override DateTime PostedOnUtc => DiscordMessage.CreatedAt.UtcDateTime;
 
         /// <summary>
         /// List of attachments
         /// </summary>
-        public override List<Attachment> Attachments { get; set; } = new List<Attachment>();
+        public override IList<Attachment> Attachments { get; set; } = new List<Attachment>();
 
         /// <summary>
         /// The formatted content of the message
         /// </summary>
-        public override string Content { get => DiscordMessage.Content; set => throw new NotSupportedException(); }
+        public override string Content { get => DiscordMessage.Content; set => throw new InvalidOperationException("Can not change the message content on existing messages"); }
 
         /// <summary>
         /// Internal storage of the channel
@@ -48,8 +42,7 @@ namespace AwesomeChatBot.Discord.Objects
         /// <summary>
         /// The channel in which this message was received
         /// </summary>
-        /// <value></value>
-        public override Channel Channel { get { return _channel; } }
+        public override Channel Channel => _channel;
 
         /// <summary>
         /// The unique Id of the message
@@ -60,6 +53,7 @@ namespace AwesomeChatBot.Discord.Objects
         /// Default constructor
         /// </summary>
         /// <param name="wrapper"></param>
+        /// <param name="discordMessage"></param>
         public DiscordChatMessage(ApiWrapper.ApiWrapper wrapper, SocketMessage discordMessage) : base(wrapper)
         {
             DiscordMessage = discordMessage ?? throw new ArgumentNullException(nameof(discordMessage));

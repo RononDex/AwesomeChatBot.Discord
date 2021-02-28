@@ -1,16 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyVersion>1.7.0.0</AssemblyVersion>
-    <Version>1.7.0</Version>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <Version>1.8.0</Version>
     <Author>RononDex</Author>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <PackageReleaseNotes>
-      - Added ReactionAdded and MessageDeleted events
-      - Added Unique Id to Messages
-      - Implemented Reactions
+            - Switched to the new async api (breaking change)
+            - Implemented publishing of messages
     </PackageReleaseNotes>
     <Description>
         This package will allow your bot built with the AweomeChatBot framework to access discord.
@@ -24,14 +23,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="2.2.0" />
+    <PackageReference Include="Discord.Net" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="AwesomeChatBot" Version="1.7.1" />
+    <PackageReference Include="AwesomeChatBot" Version="1.8.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-      <ProjectReference Include="lib/AwesomeChatBot/AwesomeChatBot/AwesomeChatBot.csproj" />
+    <ProjectReference Include="../AwesomeChatBot/AwesomeChatBot/AwesomeChatBot.csproj" />
+    <!-- <PackageReference Include="AwesomeChatBot" Version="1.7.3" /> -->
   </ItemGroup>
 </Project>

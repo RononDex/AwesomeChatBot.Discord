@@ -1,10 +1,11 @@
-﻿using Discord.WebSocket;
-using AwesomeChatBot.ApiWrapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using AwesomeChatBot.Discord.Objects;
+using System.Threading.Tasks;
+using AwesomeChatBot.ApiWrapper;
 using AwesomeChatBot.Config;
+using AwesomeChatBot.Discord.Objects;
+using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
 
 namespace AwesomeChatBot.Discord
 {
@@ -21,18 +22,16 @@ namespace AwesomeChatBot.Discord
         /// <summary>
         /// Internal reference to the discord client
         /// </summary>
-        /// <value></value>
         private DiscordSocketClient DiscordClient { get; set; }
 
         /// <summary>
         /// The logging factory used to create new loggers
         /// </summary>
-        public ILoggerFactory LoggerFactory { get; set; }
+        public ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         /// Logger instance
         /// </summary>
-        /// <value></value>
         private ILogger Logger { get; }
 
         /// <summary>
@@ -43,7 +42,6 @@ namespace AwesomeChatBot.Discord
         /// <summary>
         /// Discord formatter instance
         /// </summary>
-        /// <returns></returns>
         private readonly DiscordMessageFormatter _messageFormatter = new DiscordMessageFormatter();
 
         /// <summary>
@@ -61,14 +59,14 @@ namespace AwesomeChatBot.Discord
             #region  PRECONDITIONS
 
             if (string.IsNullOrEmpty(token))
-                throw new ArgumentNullException("Parameter \"token\" can not be null!");
-            if (loggingFactory == null)
-                throw new ArgumentNullException("Parameter \"loggingFactory\" can not be null!");
+            {
+                throw new ArgumentNullException(nameof(token));
+            }
 
             #endregion PRECONDITIONS
 
             DiscordToken = token;
-            LoggerFactory = loggingFactory;
+            LoggerFactory = loggingFactory ?? throw new ArgumentNullException(nameof(loggingFactory));
             Logger = LoggerFactory.CreateLogger(GetType().FullName);
         }
 
@@ -101,30 +99,33 @@ namespace AwesomeChatBot.Discord
             DiscordClient.StartAsync().Wait();
 
             // Setup the events
-            DiscordClient.MessageReceived += OnMessageReceived;
-            DiscordClient.MessageDeleted += OnMessageDeleted;
-            DiscordClient.GuildAvailable += OnServerAvailable;
-            DiscordClient.GuildUnavailable += OnServerUnavailable;
-            DiscordClient.JoinedGuild += OnJoinedNewServer;
-            DiscordClient.UserJoined += OnUserJoined;
-            DiscordClient.Connected += OnConnected;
-            DiscordClient.Disconnected += OnDisconnected;
-            DiscordClient.ReactionAdded += OnReactionAdded;
+            DiscordClient.MessageReceived += OnMessageReceivedAsync;
+            DiscordClient.MessageDeleted += OnMessageDeletedAsync;
+            DiscordClient.GuildAvailable += OnServerAvailableAsync;
+            DiscordClient.GuildUnavailable += OnServerUnavailableAsync;
+            DiscordClient.JoinedGuild += OnJoinedNewServerAsync;
+            DiscordClient.UserJoined += OnUserJoinedAsync;
+            DiscordClient.Connected += OnWrapperConnectedAsync;
+            DiscordClient.Disconnected += OnDisconnectedAsync;
+            DiscordClient.ReactionAdded += OnReactionAddedAsync;
         }
 
         /// <summary>
         /// Get a list of all available servers
         /// </summary>
-        public override IList<Server> GetAvailableServers()
+        public override Task<IList<Server>> GetAvailableServersAsync()
         {
-            var result = new List<Server>();
-
-            foreach (var guild in DiscordClient.Guilds)
+            return Task.Run(() =>
             {
-                result.Add(new DiscordGuild(this, guild));
-            }
+                var result = new List<Server>();
 
-            return result;
+                foreach (var guild in DiscordClient.Guilds)
+                {
+                    result.Add(new DiscordGuild(this, guild));
+                }
+
+                return (IList<Server>)result;
+            });
         }
     }
 }
