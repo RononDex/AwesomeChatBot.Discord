@@ -1,15 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyVersion>1.8.1.0</AssemblyVersion>
-    <Version>1.8.1</Version>
+    <AssemblyVersion>1.8.2.0</AssemblyVersion>
+    <Version>1.8.2</Version>
     <Author>RononDex</Author>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <PackageReleaseNotes>
-            - Switched to the new async api (breaking change)
-            - Implemented publishing of messages
+Updated AwesomeChatBot framework version
     </PackageReleaseNotes>
     <Description>
         This package will allow your bot built with the AweomeChatBot framework to access discord.
@@ -27,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="AwesomeChatBot" Version="1.8.1" />
+    <PackageReference Include="AwesomeChatBot" Version="1.8.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
