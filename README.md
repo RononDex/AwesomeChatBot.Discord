@@ -1,5 +1,5 @@
 # AwesomeChatBot.Discord
-![.NET Core](https://github.com/RononDex/AwesomeChatBot.Discord/workflows/.NET%20Core/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![.NET Core](https://github.com/RononDex/AwesomeChatBot.Discord/workflows/.NET%20Core/badge.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Nuget](https://img.shields.io/nuget/v/AwesomeChatBot.Discord.svg)](https://www.nuget.org/packages/AwesomeChatBot.Discord/) 
 
 This is the discord implementation for the [Awesome Chat Bot Framework](https://github.com/RononDex/AwesomeChatBot)
 
