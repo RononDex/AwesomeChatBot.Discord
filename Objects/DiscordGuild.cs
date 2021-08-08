@@ -82,6 +82,7 @@ namespace AwesomeChatBot.Discord.Objects
 
         public override async Task<IList<User>> GetUserseOnServer()
         {
+            await Guild.DownloadUsersAsync()
             return Guild.Users.Select(u => new DiscordUser(ApiWrapper, u) as User).ToList();
         }
     }
