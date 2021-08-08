@@ -79,5 +79,10 @@ namespace AwesomeChatBot.Discord.Objects
         {
             return Guild.Roles.Select(role => new DiscordUserRole(ApiWrapper, role) as UserRole).ToList();
         }
+
+        public override async Task<IList<User>> GetUserseOnServer()
+        {
+            return Guild.Users.Select(u => new DiscordUser(ApiWrapper, u) as User).ToList();
+        }
     }
 }
