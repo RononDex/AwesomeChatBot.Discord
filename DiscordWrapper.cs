@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AwesomeChatBot.ApiWrapper;
 using AwesomeChatBot.Config;
 using AwesomeChatBot.Discord.Objects;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
@@ -20,6 +21,11 @@ namespace AwesomeChatBot.Discord
         private string DiscordToken { get; }
 
         /// <summary>
+        /// The intents the bot announces to the discord api
+        /// </summary>
+        private GatewayIntents GatewayIntents { get; }
+
+        /// <summary>
         /// Internal reference to the discord client
         /// </summary>
         private DiscordSocketClient DiscordClient { get; set; }
@@ -28,6 +34,7 @@ namespace AwesomeChatBot.Discord
         /// The logging factory used to create new loggers
         /// </summary>
         public ILoggerFactory LoggerFactory { get; }
+
 
         /// <summary>
         /// Logger instance
@@ -54,7 +61,7 @@ namespace AwesomeChatBot.Discord
         /// </summary>
         /// <param name="token">The token to authenticate with the discord API</param>
         /// <param name="loggingFactory"></param>
-        public DiscordWrapper(string token, ILoggerFactory loggingFactory)
+        public DiscordWrapper(string token, ILoggerFactory loggingFactory, GatewayIntents gatewayIntents)
         {
             #region  PRECONDITIONS
 
@@ -67,6 +74,7 @@ namespace AwesomeChatBot.Discord
 
             DiscordToken = token;
             LoggerFactory = loggingFactory ?? throw new ArgumentNullException(nameof(loggingFactory));
+            GatewayIntents = gatewayIntents;
             Logger = LoggerFactory.CreateLogger(GetType().FullName);
         }
 
@@ -79,7 +87,7 @@ namespace AwesomeChatBot.Discord
             base.Initialize(configStore);
 
             // Setup the discord client
-            DiscordClient = new DiscordSocketClient(new DiscordSocketConfig { MessageCacheSize = 50 });
+            DiscordClient = new DiscordSocketClient(new DiscordSocketConfig { MessageCacheSize = 50, GatewayIntents = GatewayIntents });
 
             Logger.LogInformation("Loging into discord");
 

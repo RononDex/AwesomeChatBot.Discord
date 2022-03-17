@@ -50,7 +50,7 @@ namespace AwesomeChatBot.Discord
         /// </summary>
         /// <param name="cacheable"></param>
         /// <param name="channel"></param>
-        protected Task OnMessageDeletedAsync(Cacheable<IMessage, ulong> cacheable, ISocketMessageChannel channel)
+        protected Task OnMessageDeletedAsync(Cacheable<IMessage, ulong> cacheable, Cacheable<IMessageChannel, ulong> channel)
         {
             return Task.Run(async () =>
                {
@@ -143,7 +143,7 @@ namespace AwesomeChatBot.Discord
         /// <param name="cachable"></param>
         /// <param name="channel"></param>
         /// <param name="reaction"></param>
-        protected Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> cachable, ISocketMessageChannel channel, SocketReaction reaction)
+        protected Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> cachable, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
         {
             return Task.Run(async () =>
             {
