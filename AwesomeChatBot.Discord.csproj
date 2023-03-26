@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyVersion>1.8.7.0</AssemblyVersion>
-    <Version>1.8.7</Version>
+    <AssemblyVersion>1.8.8.0</AssemblyVersion>
+    <Version>1.8.8</Version>
     <Author>RononDex</Author>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <PackageReleaseNotes>
-            - Updated discord dependency
-            - Updated AwesemeChatBot dependency
-            - Allow for intents to be supplied to the wrapper
+            - Updated Discord.Net dependency to 3.9.0
     </PackageReleaseNotes>
     <Description>
         This package will allow your bot built with the AweomeChatBot framework to access discord.
@@ -24,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="3.4.1" />
+    <PackageReference Include="Discord.Net" Version="3.9.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
