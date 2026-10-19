@@ -8,9 +8,7 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 		<PackageReleaseNotes>
-			- Native slash command support
-			- Updated Discord.Net to 3.20.2, now targets net10.0 (required by Discord.Net)
-			- Updated dependencies
+			- Support for choices in slash commands
 		</PackageReleaseNotes>
 		<Description>
 			This package will allow your bot built with the AweomeChatBot framework to access discord.
