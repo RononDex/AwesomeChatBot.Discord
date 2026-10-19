@@ -67,7 +67,10 @@ namespace AwesomeChatBot.Discord
                                 option.Name,
                                 ToDiscordOptionType(option.Type),
                                 option.Description,
-                                isRequired: option.Required
+                                isRequired: option.Required,
+                                choices: option.Choices?
+                                    .Select(choice => new ApplicationCommandOptionChoiceProperties { Name = choice.Name, Value = choice.Value })
+                                    .ToArray() ?? Array.Empty<ApplicationCommandOptionChoiceProperties>()
                             );
                         }
                         return (ApplicationCommandProperties)builder.Build();
