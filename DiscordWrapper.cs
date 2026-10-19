@@ -116,6 +116,8 @@ namespace AwesomeChatBot.Discord
             DiscordClient.Connected += OnWrapperConnectedAsync;
             DiscordClient.Disconnected += OnDisconnectedAsync;
             DiscordClient.ReactionAdded += OnReactionAddedAsync;
+            DiscordClient.Ready += OnReadyAsync;
+            DiscordClient.SlashCommandExecuted += OnSlashCommandExecutedAsync;
         }
 
         /// <summary>

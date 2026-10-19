@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Discord;
 
 namespace AwesomeChatBot.Discord.Objects
@@ -49,22 +50,28 @@ namespace AwesomeChatBot.Discord.Objects
 
         private byte[] _content;
 
+        private static readonly HttpClient HttpClient = new HttpClient();
+
         /// <summary>
         /// The content of the attachment
         /// </summary>
         public override byte[] Content
         {
-            get
-            {
-                // Lazy downloading of attachment content
-                if (Attachment != null && _content == null)
-                {
-                    var wc = new WebClient();
-                    _content = wc.DownloadData(Attachment.Url);
-                }
-                return _content;
-            }
+            // Lazy downloading of attachment content, blocks, prefer GetContentAsync
+            get => GetContentAsync().GetAwaiter().GetResult();
             set { _content = value; }
+        }
+
+        /// <summary>
+        /// Downloads the attachment content (once) without blocking
+        /// </summary>
+        public override async Task<byte[]> GetContentAsync()
+        {
+            if (Attachment != null && _content == null)
+            {
+                _content = await HttpClient.GetByteArrayAsync(Attachment.Url).ConfigureAwait(false);
+            }
+            return _content;
         }
     }
 }

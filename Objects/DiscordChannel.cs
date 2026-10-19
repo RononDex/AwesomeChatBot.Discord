@@ -151,16 +151,21 @@ namespace AwesomeChatBot.Discord.Objects
 
         private static void SendEmbeddedMessage(SendMessage message, ISocketMessageChannel channel)
         {
+            channel.SendMessageAsync(embed: BuildEmbed(message.EmbeddedMessage));
+        }
+
+        internal static Embed BuildEmbed(EmbeddedMessage embeddedMessage)
+        {
             var embedBuilder = new EmbedBuilder();
-            embedBuilder.WithTitle(message.EmbeddedMessage.Title);
-            embedBuilder.WithThumbnailUrl(message.EmbeddedMessage.ThumbnailUrl);
-            embedBuilder.WithDescription(message.EmbeddedMessage.Description);
-            foreach (var field in message.EmbeddedMessage.Fields)
+            embedBuilder.WithTitle(embeddedMessage.Title);
+            embedBuilder.WithThumbnailUrl(embeddedMessage.ThumbnailUrl);
+            embedBuilder.WithDescription(embeddedMessage.Description);
+            foreach (var field in embeddedMessage.Fields)
             {
                 embedBuilder.AddField(field.Name, field.Content, field.Inline);
             }
 
-            channel.SendMessageAsync(embed: embedBuilder.Build());
+            return embedBuilder.Build();
         }
     }
 }

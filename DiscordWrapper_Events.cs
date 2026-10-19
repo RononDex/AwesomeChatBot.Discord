@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using AwesomeChatBot.Commands.Handlers;
 using AwesomeChatBot.Discord.Objects;
 using Discord;
 using Discord.WebSocket;
@@ -34,8 +36,9 @@ namespace AwesomeChatBot.Discord
             return Task.Run(async () =>
             {
                 var botUserMention = DiscordClient.CurrentUser.Mention.Replace("!", "");
-                var isMentioned = message.Content.Contains(botUserMention)
-                        || message.Content.Contains(DiscordClient.CurrentUser.Mention);
+                var isMentioned =
+                    message.Content.Contains(botUserMention)
+                    || message.Content.Contains(DiscordClient.CurrentUser.Mention);
 
                 // Create the message object
                 var messageObj = new DiscordReceivedMessage(this, message, isMentioned);
@@ -46,27 +49,106 @@ namespace AwesomeChatBot.Discord
         }
 
         /// <summary>
+        /// When the client is ready, (re)register all slash commands with discord
+        /// </summary>
+        protected async Task OnReadyAsync()
+        {
+            try
+            {
+                var commands = GetSlashCommands()
+                    .Select(command =>
+                    {
+                        var builder = new SlashCommandBuilder()
+                            .WithName(command.SlashName)
+                            .WithDescription(command.SlashDescription);
+                        foreach (var option in command.Options ?? Array.Empty<SlashCommandOption>())
+                        {
+                            builder.AddOption(
+                                option.Name,
+                                ToDiscordOptionType(option.Type),
+                                option.Description,
+                                isRequired: option.Required
+                            );
+                        }
+                        return (ApplicationCommandProperties)builder.Build();
+                    })
+                    .ToArray();
+
+                // Overwrites everything, so commands removed from the bot also disappear from discord
+                // ponytail: assumes commands are registered before Ready fires (login takes seconds); add an explicit sync call if that ever races
+                await DiscordClient
+                    .BulkOverwriteGlobalApplicationCommandsAsync(commands)
+                    .ConfigureAwait(false);
+                Logger.LogInformation($"Registered {commands.Length} slash commands");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Registering slash commands failed: {ex}");
+            }
+        }
+
+        private static ApplicationCommandOptionType ToDiscordOptionType(SlashOptionType type)
+        {
+            switch (type)
+            {
+                case SlashOptionType.Integer:
+                    return ApplicationCommandOptionType.Integer;
+                case SlashOptionType.Number:
+                    return ApplicationCommandOptionType.Number;
+                case SlashOptionType.Boolean:
+                    return ApplicationCommandOptionType.Boolean;
+                case SlashOptionType.User:
+                    return ApplicationCommandOptionType.User;
+                case SlashOptionType.Attachment:
+                    return ApplicationCommandOptionType.Attachment;
+                default:
+                    return ApplicationCommandOptionType.String;
+            }
+        }
+
+        /// <summary>
+        /// When a user invokes a slash command
+        /// </summary>
+        /// <param name="slashCommand"></param>
+        protected Task OnSlashCommandExecutedAsync(SocketSlashCommand slashCommand)
+        {
+            return Task.Run(async () =>
+            {
+                // Discord needs an answer within 3 seconds, commands reply later using follow ups
+                await slashCommand.DeferAsync().ConfigureAwait(false);
+                await OnSlashCommandReceivedAsync(
+                        new DiscordSlashCommandInvocation(this, slashCommand)
+                    )
+                    .ConfigureAwait(false);
+            });
+        }
+
+        /// <summary>
         /// When a new message is deleted
         /// </summary>
         /// <param name="cacheable"></param>
         /// <param name="channel"></param>
-        protected Task OnMessageDeletedAsync(Cacheable<IMessage, ulong> cacheable, Cacheable<IMessageChannel, ulong> channel)
+        protected Task OnMessageDeletedAsync(
+            Cacheable<IMessage, ulong> cacheable,
+            Cacheable<IMessageChannel, ulong> channel
+        )
         {
             return Task.Run(async () =>
-               {
-                   if (cacheable.Value is SocketMessage socketMessage)
-                   {
-                       var botUserMention = DiscordClient.CurrentUser.Mention.Replace("!", "");
-                       var isMentioned = socketMessage.Content.Contains(botUserMention)
-                               || socketMessage.Content.Contains(DiscordClient.CurrentUser.Mention);
+            {
+                if (cacheable.Value is SocketMessage socketMessage)
+                {
+                    var botUserMention = DiscordClient.CurrentUser.Mention.Replace("!", "");
+                    var isMentioned =
+                        socketMessage.Content.Contains(botUserMention)
+                        || socketMessage.Content.Contains(DiscordClient.CurrentUser.Mention);
 
-                       // Create the message object
-                       var messageObj = new DiscordReceivedMessage(this, socketMessage, isMentioned);
+                    // Create the message object
+                    var messageObj = new DiscordReceivedMessage(this, socketMessage, isMentioned);
 
-                       // Propagate the event
-                       await OnMessageDeletedAsync(messageObj).ConfigureAwait(false);
-                   }
-               });
+                    // Propagate the event
+                    await OnMessageDeletedAsync(messageObj).ConfigureAwait(false);
+                }
+            });
         }
 
         /// <summary>
@@ -143,7 +225,11 @@ namespace AwesomeChatBot.Discord
         /// <param name="cachable"></param>
         /// <param name="channel"></param>
         /// <param name="reaction"></param>
-        protected Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> cachable, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
+        protected Task OnReactionAddedAsync(
+            Cacheable<IUserMessage, ulong> cachable,
+            Cacheable<IMessageChannel, ulong> channel,
+            SocketReaction reaction
+        )
         {
             return Task.Run(async () =>
             {

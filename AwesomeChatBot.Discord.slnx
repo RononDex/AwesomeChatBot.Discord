@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../AwesomeChatBot/AwesomeChatBot/AwesomeChatBot.csproj" />
+  <Project Path="AwesomeChatBot.Discord.csproj" />
+</Solution>
